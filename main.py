@@ -54,7 +54,7 @@ def main():
     print()
 
     # more likes and comments
-    p3.like(u2)
+    p3.__like(u2)
     p3.comment(u2, "Can you give me your phone number?")
     p3.comment(u4, "+97255576433")
     print()
