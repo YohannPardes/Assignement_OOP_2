@@ -11,7 +11,6 @@ class SocialNetwork:
             cls.instance = super(SocialNetwork, cls).__new__(cls)
         return cls.instance
 
-
     def __init__(self, name: str):
         # network params
         self.__name = name
@@ -48,13 +47,18 @@ class SocialNetwork:
         if not user.check_password(password):
             raise ValueError("Wrong password")
 
+        print(f"{user_name} connected")
         user.connected = True
         self.__connected_users.add(user_name)
 
     def log_out(self, user_name: str):
-
+        print(f"{user_name} disconnected")
         self.__connected_users.remove(user_name)  # throw an error if the user is already logged out
         self.__user_list[user_name].connected = False
 
     def __str__(self):  # not sure about this one
-        return ""
+        string = f"{self.__name} social network"
+        for user in self.__user_list:
+            string += user
+
+        return string

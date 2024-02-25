@@ -18,8 +18,6 @@ class Post(ABC):
 
     def like(self, user):
 
-        print(self.__dict__)
-
         if user.connected:
             self.__like += 1
             Notification.notify("Like", self._owner, user)
@@ -93,7 +91,6 @@ class ImagePost(Post):
         img = mpimg.imread(f"{self.img_path}")
         plt.imshow(img)
         plt.show()
-
 
 
 class SalePost(Post):

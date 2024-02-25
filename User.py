@@ -15,15 +15,20 @@ class User:
         self.__posts = []
         self.__connected = True
 
+    def __str__(self):
+        return f"User name: {self.name}, Number of posts: {len(self.__posts)}, Number of followers: {len(self.__followers)}"
+
     def update(self, notif_message):
         self.__notifications.append(notif_message)
 
     def follow(self, user):
         if self.connected:
+            print(f"{self.name} started following {user.__name}")
             self.__followed.add(user)
             user.__followers.add(self)
 
     def unfollow(self, user):
+        print(f"{self.name} unfollowed {user.name}")
         if self.connected:
             self.__followed.remove(user)
             user.__followers.remove(self)
@@ -55,4 +60,7 @@ class User:
         return self.__followers
 
     def print_notifications(self):
-        print("AAAAAAAAæ")
+        print(f"{self.name}'s notifications:")
+        print(*self.__notifications, sep = "\n")
+
+
