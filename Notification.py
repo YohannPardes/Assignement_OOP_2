@@ -9,8 +9,8 @@ class Notification:
 
     @classmethod
     def add_like(cls, owner, liker):
-        print(f"notification to {owner.name}: {liker.name} liked your post")
         if owner != liker:
+            print(f"notification to {owner.name}: {liker.name} liked your post")
             message = f"{liker.name} liked your post"
             owner.update(message)
 
