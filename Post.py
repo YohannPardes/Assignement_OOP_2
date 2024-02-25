@@ -14,17 +14,28 @@ class Post(ABC):
         self.__comments = {}
 
     def like(self, user):
-        self.__like += 1
 
-    def comment(self, user, text: str):
-        if user in self.__comments.keys():
-            self.__comments[user] = [text]
+        if user.connected():
+            self.__like += 1
 
         else:
-            self.__comments[user].append(text)
+            raise ValueError("This username is not connected!")
+
+    def comment(self, user, text: str):
+
+        if user.connected():
+            if user in self.__comments.keys():  # TODO - why like this?
+                self.__comments[user] = [text]
+
+            else:
+                self.__comments[user].append(text)
+
+        else:
+            raise ValueError("This username is not connected!")
 
     @classmethod
     def create_post(cls, kind: str, *args):
+
         if kind == "Text":
             text = args[0]
             return TextPost(text)
