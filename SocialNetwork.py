@@ -57,8 +57,8 @@ class SocialNetwork:
         self.__user_list[user_name].connected = False
 
     def __str__(self):  # not sure about this one
-        string = f"{self.__name} social network"
-        for user in self.__user_list:
-            string += user
+        string = f"{self.__name} social network\n"
+        for user, obj in self.__user_list.items():
+            string += str(obj) + "\n"
 
         return string
