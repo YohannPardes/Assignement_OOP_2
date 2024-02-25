@@ -11,6 +11,7 @@ class SocialNetwork:
             cls.instance = super(SocialNetwork, cls).__new__(cls)
         return cls.instance
 
+
     def __init__(self, name: str):
         # network params
         self.__name = name

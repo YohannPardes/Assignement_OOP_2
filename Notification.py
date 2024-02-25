@@ -13,6 +13,7 @@ class Notification:
             message = f"{liker.name} liked your post"
             owner.update(message)
 
+
     @classmethod
     def add_comment(cls, owner, commenter):
         if owner != commenter:

@@ -37,6 +37,7 @@ class User:
     def check_password(self, password: str):
         return self.__password == password
 
+
     @property
     def connected(self):
         return self.__connected

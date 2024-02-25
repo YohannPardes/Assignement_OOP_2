@@ -65,6 +65,7 @@ def main():
 
     print(p3)
 
+
     # Displaying the image of the post
     p2.display()
     print()

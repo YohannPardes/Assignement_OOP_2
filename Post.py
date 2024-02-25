@@ -95,6 +95,7 @@ class ImagePost(Post):
         plt.show()
 
 
+
 class SalePost(Post):
 
     def __init__(self, owner, product_name: str, price: int, city_sale: str):
