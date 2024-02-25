@@ -56,4 +56,4 @@ class SocialNetwork:
         self.__user_list[user_name].connected = False
 
     def __str__(self):  # not sure about this one
-        pass
+        return ""

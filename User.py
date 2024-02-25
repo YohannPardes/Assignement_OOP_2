@@ -53,3 +53,5 @@ class User:
     def followers(self):
         return self.__followers
 
+    def print_notifications(self):
+        print("AAAAAAAAæ")

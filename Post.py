@@ -14,13 +14,15 @@ class Post(ABC):
     def __init__(self):
         self.__like = 0
         self.__comments = {}
-        self.__owner = None
+        self._owner = None
 
     def like(self, user):
 
+        print(self.__dict__)
+
         if user.connected:
             self.__like += 1
-            Notification.notify("Like", self.__owner, user)
+            Notification.notify("Like", self._owner, user)
 
         else:
             raise ValueError("This username is not connected!")
@@ -28,7 +30,7 @@ class Post(ABC):
     def comment(self, user, text: str):
 
         if user.connected:
-            Notification.notify("Comment", self.__owner, user, text)
+            Notification.notify("Comment", self._owner, user, text)
 
         else:
             raise ValueError("This username is not connected!")
@@ -56,11 +58,11 @@ class Post(ABC):
 
     @property
     def owner(self):
-        return self.__owner
+        return self._owner
 
     @owner.setter
     def owner(self, user):
-        self.__owner = user
+        self._owner = user
 
 
 class TextPost(Post):
@@ -68,7 +70,7 @@ class TextPost(Post):
     def __init__(self, owner, text):
         super().__init__()
         self.text = text
-        self.__owner = owner
+        self._owner = owner
 
         Notification.notify("NewPost", owner)
 
@@ -80,16 +82,16 @@ class ImagePost(Post):
 
     def __init__(self, owner, img_path):
         super().__init__()
-        self.__owner = owner
+        self._owner = owner
         self.img_path = img_path
 
         Notification.notify("NewPost", owner)
     """
-    This function take the path of the image stored in img_path and display it using matplotlib, Pillow and numpy"""
+    This function take the path of the image stored in img_path and display it using matplotlib"""
 
     def display(self):
-        img = mpimg.imread('your_image.png')
-        img_plot = plt.imshow(img)
+        img = mpimg.imread(f"{self.img_path}")
+        plt.imshow(img)
         plt.show()
 
 
@@ -97,7 +99,7 @@ class SalePost(Post):
 
     def __init__(self, owner, product_name: str, price: int, city_sale: str):
         super().__init__()
-        self.__owner = owner
+        self._owner = owner
         self.product_name = product_name
         self.price = price
         self.city_sale = city_sale
@@ -106,13 +108,13 @@ class SalePost(Post):
         Notification.notify("NewPost", owner)
 
     def sold(self, password: str):
-        if self.__owner.check_password(password):
+        if self._owner.check_password(password):
             self.status = False
         else:
             raise ValueError("Wrong password!")
 
     def discount(self, discount_perc, password: str):
-        if self.__owner.check_password(password) and self.status:
+        if self._owner.check_password(password) and self.status:
             self.price = (self.price * (100 - discount_perc)) / 100
         else:
             raise ValueError("Wrong password!")

@@ -29,7 +29,7 @@ class Notification:
 
             case "Comment":
                 commenter = args[0]
-                comment= args[1]
+                comment = args[1]
                 cls.add_comment(owner, commenter)
 
             case "NewPost":
