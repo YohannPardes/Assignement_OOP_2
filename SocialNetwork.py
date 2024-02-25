@@ -9,6 +9,8 @@ class SocialNetwork:
     def __new__(cls, name: str):
         if not hasattr(cls, 'instance'):
             cls.instance = super(SocialNetwork, cls).__new__(cls)
+            print(f"The social network {name} was created!")
+
         return cls.instance
 
     def __init__(self, name: str):

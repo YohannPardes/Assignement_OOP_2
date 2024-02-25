@@ -70,7 +70,11 @@ class TextPost(Post):
         self.text = text
         self._owner = owner
 
+        print(self)
         Notification.notify("NewPost", owner)
+
+    def __str__(self):
+        return f"{self._owner.name} published a post:\n\"{self.text}\"\n"
 
     def display(self):
         raise TypeError(f"A {self.__class__.__name__} cannot be displayed, only ImagePost")
@@ -83,13 +87,19 @@ class ImagePost(Post):
         self._owner = owner
         self.img_path = img_path
 
+        print(self)
         Notification.notify("NewPost", owner)
+
+    def __str__(self):
+        return f"{self._owner.name} posted a picture\n"
+
     """
     This function take the path of the image stored in img_path and display it using matplotlib"""
 
     def display(self):
         img = mpimg.imread(f"{self.img_path}")
         plt.imshow(img)
+        print("Shows picture")
         plt.show()
 
 
@@ -103,17 +113,24 @@ class SalePost(Post):
         self.city_sale = city_sale
         self.status = True
 
+        print(self)
         Notification.notify("NewPost", owner)
+
+    def __str__(self):
+        return (f"{self._owner.name} posted a product for sale:\nFor sale! {self.product_name}, price: {self.price}, "
+                f"pickup from: {self.city_sale}\n")
 
     def sold(self, password: str):
         if self._owner.check_password(password):
             self.status = False
+            print(f"{self._owner.name}'s product is sold")
         else:
             raise ValueError("Wrong password!")
 
     def discount(self, discount_perc, password: str):
         if self._owner.check_password(password) and self.status:
             self.price = (self.price * (100 - discount_perc)) / 100
+            print(f"Discount on {self._owner.name} product! the new price is: {self.price}")
         else:
             raise ValueError("Wrong password!")
 
