@@ -17,7 +17,7 @@ class Notification:
     @classmethod
     def add_comment(cls, owner, commenter, comment):
         if owner != commenter:
-            print(f"notification to {owner.name}: {commenter.name} commented on your post : {comment}")
+            print(f"notification to {owner.name}: {commenter.name} commented on your post: {comment}")
             message = f"{commenter.name} commented on your post"
             owner.update(message)
 

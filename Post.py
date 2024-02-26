@@ -117,8 +117,8 @@ class SalePost(Post):
         Notification.notify("NewPost", owner)
 
     def __str__(self):
-        return (f"{self._owner.name} posted a product for sale:\nFor sale! {self.product_name}, price: {self.price}, "
-                f"pickup from: {self.city_sale}\n")
+        return (f"{self._owner.name} posted a product for sale:\n{"For sale" if self.status else "Sold"}! "
+                f"{self.product_name}, price: {self.price}, pickup from: {self.city_sale}\n")
 
     def sold(self, password: str):
         if self._owner.check_password(password):
