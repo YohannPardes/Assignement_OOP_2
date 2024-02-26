@@ -72,6 +72,7 @@ class Post(ABC):
 class TextPost(Post):
     """This class implements the abstract class of Post
     and represent a text post"""
+
     def __init__(self, owner, text):
         super().__init__()
         self.text = text
@@ -90,6 +91,7 @@ class TextPost(Post):
 class ImagePost(Post):
     """This class implements the abstract class of Post
         and represent an image post"""
+
     def __init__(self, owner, img_path):
         super().__init__()
         self._owner = owner
@@ -112,6 +114,7 @@ class ImagePost(Post):
 class SalePost(Post):
     """This class implements the abstract class of Post
         and represent a sale post"""
+
     def __init__(self, owner, product_name: str, price: int, city_sale: str):
         super().__init__()
         self._owner = owner
@@ -130,19 +133,20 @@ class SalePost(Post):
 
     def sold(self, password: str):
         """This function handle a sold event of a sale post"""
-        if self._owner.check_password(password): # if the password is correct
+        if self._owner.check_password(password) and self.owner.connected:  # if the password is correct and the user is connected
             self.status = False
             print(f"{self._owner.name}'s product is sold")
         else:
-            raise ValueError("Wrong password!")
+            raise ValueError("Wrong password! or you are not connected")
 
     def discount(self, discount_perc, password: str):
         """This function handle a discount on a sale post"""
-        if self._owner.check_password(password) and self.status: # if the user is connected and the right password is inputed
+        if self._owner.check_password(
+                password) and self.status and self.owner.connected:  # if the product is still to sale, the right password is inputed and the user is connected
             self.price = (self.price * (100 - discount_perc)) / 100
             print(f"Discount on {self._owner.name} product! the new price is: {self.price}")
         else:
-            raise ValueError("Wrong password!")
+            raise ValueError("Wrong password! or not connected or the product already has been sold")
 
     def display(self):
         raise TypeError(f"A {self.__class__.__name__} cannot be displayed, only ImagePost")

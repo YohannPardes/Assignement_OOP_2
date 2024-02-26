@@ -30,8 +30,8 @@ class User:
 
     def unfollow(self, user):
         """This function handle the event of self following another user"""
-        print(f"{self.name} unfollowed {user.name}")
         if self.connected:
+            print(f"{self.name} unfollowed {user.name}")
             self.__followed.remove(user)
             user.__followers.remove(self)
 
