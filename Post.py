@@ -17,7 +17,7 @@ class Post(ABC):
         self._owner = None
 
     def like(self, user):
-
+        """This function handle the behavior of a posted liked"""
         if user.connected:
             self.__like += 1
             Notification.notify("Like", self._owner, user)
@@ -26,7 +26,7 @@ class Post(ABC):
             raise ValueError("This username is not connected!")
 
     def comment(self, user, text: str):
-
+        """This function handle the behavior of a comment in the network"""
         if user.connected:
             Notification.notify("Comment", self._owner, user, text)
 
@@ -35,7 +35,10 @@ class Post(ABC):
 
     @classmethod
     def create_post(cls, owner, kind: str, *args):
+        """This function handle the behavior of a new post created in the network
+        using a factory like design pattern"""
 
+        # create a different Post child according to the situation (inputted kind of post)
         if kind == "Text":
             text = args[0]
             return TextPost(owner, text)
@@ -52,19 +55,23 @@ class Post(ABC):
 
     @abstractmethod
     def display(self):
+        """This function is for displaying a picture"""
         pass
 
     @property
     def owner(self):
+        """getter of self.owner"""
         return self._owner
 
     @owner.setter
     def owner(self, user):
+        """setter of self.owner"""
         self._owner = user
 
 
 class TextPost(Post):
-
+    """This class implements the abstract class of Post
+    and represent a text post"""
     def __init__(self, owner, text):
         super().__init__()
         self.text = text
@@ -81,7 +88,8 @@ class TextPost(Post):
 
 
 class ImagePost(Post):
-
+    """This class implements the abstract class of Post
+        and represent an image post"""
     def __init__(self, owner, img_path):
         super().__init__()
         self._owner = owner
@@ -93,10 +101,8 @@ class ImagePost(Post):
     def __str__(self):
         return f"{self._owner.name} posted a picture\n"
 
-    """
-    This function take the path of the image stored in img_path and display it using matplotlib"""
-
     def display(self):
+        """This function take the path of the image stored in img_path and display it using matplotlib"""
         img = mpimg.imread(f"{self.img_path}")
         plt.imshow(img)
         print("Shows picture")
@@ -104,7 +110,8 @@ class ImagePost(Post):
 
 
 class SalePost(Post):
-
+    """This class implements the abstract class of Post
+        and represent a sale post"""
     def __init__(self, owner, product_name: str, price: int, city_sale: str):
         super().__init__()
         self._owner = owner
@@ -121,14 +128,16 @@ class SalePost(Post):
                 f"{self.product_name}, price: {self.price}, pickup from: {self.city_sale}\n")
 
     def sold(self, password: str):
-        if self._owner.check_password(password):
+        """This function handle a sold event of a sale post"""
+        if self._owner.check_password(password): # if the password is correct
             self.status = False
             print(f"{self._owner.name}'s product is sold")
         else:
             raise ValueError("Wrong password!")
 
     def discount(self, discount_perc, password: str):
-        if self._owner.check_password(password) and self.status:
+        """This function handle a discount on a sale post"""
+        if self._owner.check_password(password) and self.status: # if the user is connected and the right password is inputed
             self.price = (self.price * (100 - discount_perc)) / 100
             print(f"Discount on {self._owner.name} product! the new price is: {self.price}")
         else:
