@@ -64,7 +64,7 @@ class SocialNetwork:
 
     def __str__(self):
         """The __str__ of SocialNetwork print all the users of the platform"""
-        string = f"{self.__name} social network\n"
+        string = f"{self.__name} social network:\n"
         for user, obj in self.__user_list.items():
             string += str(obj) + "\n"
 
