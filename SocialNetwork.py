@@ -8,15 +8,17 @@ class SocialNetwork:
     instance = None
 
     def __new__(cls, name: str):
-        if cls.instance is None:
+        if cls.instance is None:  # if no instance has been instanced yet then create one
             cls.instance = super(SocialNetwork, cls).__new__(cls)
             cls.instance.__initialized = False
             print(f"The social network {name} was created!")
 
-        return cls.instance
+        return cls.instance  # return the instance (a new one if it's the first creation,
+                             # the previous one if an instance of the class has already been created
 
     def __init__(self, name: str):
-        if not self.__initialized:
+        if not self.__initialized:  # if this is the first creation the create the fields otherwise do nothing
+                                    # so that when creating a new one the fields are not overrided
             # network params
             self.__name = name
 
