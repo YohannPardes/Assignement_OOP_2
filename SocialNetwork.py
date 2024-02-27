@@ -5,21 +5,25 @@ class SocialNetwork:
     """
     This class implements a social network using a singleton pattern
     """
+    instance = None
 
     def __new__(cls, name: str):
-        if not hasattr(cls, 'instance'):
+        if cls.instance is None:
             cls.instance = super(SocialNetwork, cls).__new__(cls)
+            cls.instance.__initialized = False
             print(f"The social network {name} was created!")
 
         return cls.instance
 
     def __init__(self, name: str):
-        # network params
-        self.__name = name
+        if not self.__initialized:
+            # network params
+            self.__name = name
 
-        # users parameters
-        self.__user_list = {}
-        self.__connected_users = set()
+            # users parameters
+            self.__user_list = {}
+            self.__connected_users = set()
+            self.__initialized = True
 
     def sign_up(self, user_name: str, password: str):
 
